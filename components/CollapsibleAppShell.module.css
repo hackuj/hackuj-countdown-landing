@@ -1,0 +1,134 @@
+.shell {
+  --collapsible-sidebar-width: 220px;
+  position: relative;
+  grid-template-columns: var(--collapsible-sidebar-width) minmax(0, 1fr);
+  transition: grid-template-columns 220ms var(--ease-out);
+}
+
+.sidebar {
+  width: 220px;
+  transform: translateX(0);
+  opacity: 1;
+  will-change: transform, opacity;
+  transition:
+    transform 220ms var(--ease-out),
+    opacity 140ms ease-out;
+}
+
+.collapsed {
+  --collapsible-sidebar-width: 0px;
+}
+
+.collapsed .sidebar {
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.hideButton,
+.showButton {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 140ms ease-out,
+    color 140ms ease-out,
+    opacity 160ms ease-out,
+    transform 220ms var(--ease-out),
+    box-shadow 140ms ease-out;
+}
+
+.hideButton {
+  position: absolute;
+  top: 18px;
+  right: 10px;
+  z-index: 2;
+  background: transparent;
+  color: var(--ink-3);
+}
+
+.hideButton:hover {
+  background: var(--paper-sink);
+  color: var(--ink);
+}
+
+.showButton {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 80;
+  background: var(--paper-raise);
+  color: var(--ink-2);
+  border: 1px solid var(--line-2);
+  box-shadow: var(--shadow-sm);
+  opacity: 0;
+  transform: translateX(-8px) scale(0.96);
+  pointer-events: none;
+}
+
+.showButton:hover {
+  background: var(--paper-3);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.showButtonVisible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: auto;
+  transition-delay: 80ms, 80ms, 80ms, 80ms, 0ms;
+}
+
+.shell :global(.app-head),
+.shell :global(.dash-header) {
+  transition: padding-left 220ms var(--ease-out);
+}
+
+.collapsed :global(.app-head) {
+  padding-left: 52px;
+}
+
+.collapsed :global(.dash-header) {
+  padding-left: 64px;
+}
+
+@media (max-width: 768px) {
+  .shell,
+  .collapsed {
+    --collapsible-sidebar-width: 0px;
+    grid-template-columns: 1fr;
+    transition: none;
+  }
+
+  .sidebar,
+  .hideButton,
+  .showButton {
+    display: none !important;
+  }
+
+  .shell :global(.app-head) {
+    padding-left: 0;
+    transition: none;
+  }
+
+  .shell :global(.dash-header) {
+    padding-left: 16px;
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shell,
+  .sidebar,
+  .hideButton,
+  .showButton,
+  .shell :global(.app-head),
+  .shell :global(.dash-header) {
+    transition: none;
+  }
+}
